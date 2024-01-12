@@ -1,15 +1,18 @@
 package giovannilongo.PROGETTO.U5S1L5120124.entities;
 
 import jakarta.persistence.*;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Getter
 @Setter
+@Data
 @NoArgsConstructor
 public class Utente {
     @Id
@@ -28,4 +31,13 @@ public class Utente {
         this.email = email;
 
     }
+
+    public void addPrenotazione(Prenotazione prenotazione) {
+        if (prenotazioni == null) {
+            prenotazioni = new ArrayList<>();
+        }
+        prenotazioni.add(prenotazione);
+        prenotazione.setUtente(this);
+    }
+
 }

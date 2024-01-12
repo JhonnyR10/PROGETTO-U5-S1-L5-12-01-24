@@ -1,15 +1,13 @@
 package giovannilongo.PROGETTO.U5S1L5120124.entities;
 
 import jakarta.persistence.*;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import java.util.List;
 
 @Entity
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 public class Edificio {
     @Id

@@ -1,16 +1,15 @@
 package giovannilongo.PROGETTO.U5S1L5120124;
 
-import giovannilongo.PROGETTO.U5S1L5120124.entities.Edificio;
-import giovannilongo.PROGETTO.U5S1L5120124.entities.Postazione;
-import giovannilongo.PROGETTO.U5S1L5120124.entities.TipoPostazione;
-import giovannilongo.PROGETTO.U5S1L5120124.entities.Utente;
+import giovannilongo.PROGETTO.U5S1L5120124.entities.*;
 import giovannilongo.PROGETTO.U5S1L5120124.services.EdificioService;
 import giovannilongo.PROGETTO.U5S1L5120124.services.PostazioneService;
+import giovannilongo.PROGETTO.U5S1L5120124.services.PrenotazioneService;
 import giovannilongo.PROGETTO.U5S1L5120124.services.UtenteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,6 +21,8 @@ public class SaveRunner implements CommandLineRunner {
     private PostazioneService postazioneService;
     @Autowired
     private UtenteService utenteService;
+    @Autowired
+    private PrenotazioneService prenotazioneService;
 
     @Override
     public void run(String... args) throws Exception {
@@ -44,7 +45,23 @@ public class SaveRunner implements CommandLineRunner {
             utenteService.save(utente1);
             utenteService.save(utente2);
 
-
+            Prenotazione prenotazione1 = new Prenotazione();
+            LocalDate dataCorrente = LocalDate.now();
+            if (utenteService.hasPrenotazioneForDate(utente1, dataCorrente)) {
+                System.err.println("L'utente ha già prenotato una postazione per la data corrente.");
+                return;
+            }
+            if (!postazioneService.isPostazioneFreeForDate(postazione1, dataCorrente)) {
+                System.err.println("La postazione non è disponibile per la data corrente.");
+                return;
+            }
+            prenotazione1.setUtente(utente1);
+            prenotazione1.setPostazione(postazione1);
+            prenotazione1.setData(LocalDate.now());
+            postazione1.addPrenotazione(prenotazione1);
+            utente1.addPrenotazione(prenotazione1);
+            prenotazioneService.save(prenotazione1);
+            
         } catch (Exception ex) {
             System.err.println(ex.getMessage());
         }

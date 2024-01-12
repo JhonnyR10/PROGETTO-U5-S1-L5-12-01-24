@@ -1,6 +1,7 @@
 package giovannilongo.PROGETTO.U5S1L5120124.services;
 
 import giovannilongo.PROGETTO.U5S1L5120124.entities.Postazione;
+import giovannilongo.PROGETTO.U5S1L5120124.entities.Prenotazione;
 import giovannilongo.PROGETTO.U5S1L5120124.entities.TipoPostazione;
 import giovannilongo.PROGETTO.U5S1L5120124.exceptions.NotFoundException;
 import giovannilongo.PROGETTO.U5S1L5120124.repositories.PostazioneDAO;
@@ -38,5 +39,10 @@ public class PostazioneService {
 
     public List<Postazione> findFreePostazioniForDate(LocalDate data) {
         return postazioneDAO.findFreePostazioniForDate(data);
+    }
+
+    public boolean isPostazioneFreeForDate(Postazione postazione, LocalDate data) {
+        List<Prenotazione> prenotazioniPostazione = postazione.getPrenotazioni();
+        return prenotazioniPostazione == null || prenotazioniPostazione.stream().noneMatch(p -> p.getData().equals(data));
     }
 }

@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -32,5 +33,13 @@ public class Postazione {
         this.tipo = tipo;
         this.numeroMassimoOccupanti = numeroMassimoOccupanti;
         this.edificio = edificio;
+    }
+
+    public void addPrenotazione(Prenotazione prenotazione) {
+        if (prenotazioni == null) {
+            prenotazioni = new ArrayList<>();
+        }
+        prenotazioni.add(prenotazione);
+        prenotazione.setPostazione(this);
     }
 }
