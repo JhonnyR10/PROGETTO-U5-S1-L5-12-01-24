@@ -12,7 +12,7 @@ import java.util.List;
 public class Postazione {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private long id;
     private String codiceUnivoco;
     private String descrizione;
     @Enumerated(EnumType.STRING)
